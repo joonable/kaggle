@@ -57,11 +57,15 @@ class SPEACH_PRO(object):
             self.freqs, self.times, self.spectrogram = self.log_specgram(self.samples, self.sample_rate)
             self.spectrogram_list.append(self.spectrogram)
 
-    def re_sampling(self):
-        div_num = 530496 // 22050
-        re_samples = [self.samples[i] for i in range(530496) if i % div_num  == 0]
-        re_samples = re_samples[:22050]
-        return re_samples
+    def re_sampling(self, target_shape=None):
+        if not target_shape:
+            target_shape = self.sample_rate
+        sample_shape = self.samples.shape[0]
+        assert target_shape < sample_shape
+        step_size = sample_shape // target_shape
+        re_samples = [self.samples[i] for i in range(0, sample_shape, step_size)]
+        re_samples = re_samples[:target_shape]
+        return np.array(re_samples)
 
     def show_plot(self):
         plt.figure()
