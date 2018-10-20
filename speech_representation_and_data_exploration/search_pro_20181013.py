@@ -79,6 +79,26 @@ class SPEACH_PRO(object):
             waves = [f for f in os.listdir(join(self.train_audio_path, '')) if f.endswith('.wav')]
             self.filename_list.append(waves)
 
+    def trim_samples(self, samples=None, check_period=1000, ratio_threshold=0.1):
+        if not samples:
+            samples = self.samples
+
+        threshold = np.std(samples) * ratio_threshold
+        start_idx = 0
+        end_idx = len(samples)
+
+        for i in range(0, len(samples), check_period):
+            if np.std(samples[i:i+check_period]) > threshold:
+                start_idx = i
+                break
+
+        for i in range(len(samples), 0, -check_period):
+            if np.std(samples[i-check_period:i]) > threshold:
+                end_idx = i
+                break
+
+        return samples[start_idx:end_idx]
+
 
 
 
