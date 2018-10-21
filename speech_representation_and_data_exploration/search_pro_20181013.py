@@ -31,8 +31,8 @@ class SPEACH_PRO(object):
     def __init__(self):
         self.train_audio_path = './data/'
         self.filename = '/001.wav'
-        self.samples= None
-        self.sample_rate =None
+        self.samples = None
+        self.sample_rate = None
         self.freqs = None
         self.times = None
         self.spectrogram = None
@@ -98,8 +98,6 @@ class SPEACH_PRO(object):
                 break
 
         return samples[start_idx:end_idx]
-
-
 
 
 if __name__=="__main__":
