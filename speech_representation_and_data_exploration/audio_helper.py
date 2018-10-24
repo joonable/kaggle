@@ -1,36 +1,17 @@
 import pickle
 import os
-from os.path import isdir, join
+from os.path import join
 import numpy as np
 from scipy import signal
 import librosa
 import librosa.display
 
-# mp3 to wav
-# from pydub import AudioSegment  # ffmpeg 필요
-# sound = AudioSegment.from_mp3(r'C:/Users/khudd/PycharmProjects/untitled/ml_study/data/001.MP3')
-# sound.export("./data/001.wav", format="wav")
 
-# class AudioHelper(object):
-
-# def __init__(self, config):
-#     self.train_audio_path = './data/'
-    # self.samples= None
-    # self.sample_rate =None
-
-
-    # self.filename_list = [f for f in os.listdir(join(self.train_audio_path, ''))
-    #                       if f.endswith('.MP3') ]
-    # self.spectrogram_list = []
-    # self.train_label = np.array([[0,1],[0,1]])
-    # self.config = {}    #TODO config lib
-
-
-def load_samples_from_audios(path='./data', file_extension='MP3'):
+def load_samples_from_audios(path_to_dir='./data', file_extension='MP3'):
     sample_list = []
-    filename_list = [f for f in os.listdir(join(path, '')) if f.endswith(file_extension)]
+    filename_list = [f for f in os.listdir(join(path_to_dir, '')) if f.endswith(file_extension)]
     for filename in filename_list:
-        samples, sample_rate = librosa.load(path + filename)
+        samples, sample_rate = librosa.load(path_to_dir + filename)
         sample_data = (samples, sample_rate)
         sample_list.append(sample_data)
     return np.array(sample_list)
@@ -109,7 +90,6 @@ def sample_to_spectrogram(sample_list, save_to_file=False, path_to_file=None):
             pass
 
         with open(path_to_file, 'wb') as _file:
-            _file = pickle.dumps(spectrogram_list)
+            pickle.dump(spectrogram_list, _file)
 
     return spectrogram_list
-
