@@ -169,5 +169,3 @@ if __name__=="__main__":
 # ax2.set_xlabel('Seconds')
 # plt.savefig()
 # plt.show()
-
-
